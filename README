@@ -1,0 +1,5 @@
+histfactory-cnvtools
+====================
+
+small set of methods and routines to extract information from HistFactory configuration. Initial support
+for formattig to new HepData YAML schema with help of [hepdata-rootcnv](https://github.com/lukasheinrich) 
