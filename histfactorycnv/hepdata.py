@@ -16,7 +16,7 @@ def nominal_with_all_systs(dep_info,**kwargs):
   for sys in sysnames:
     up_val = dep_info['systhist_{}_up'.format(sys)]['value']
     dn_val = dep_info['systhist_{}_down'.format(sys)]['value']
-    errors += [{'asymerror':{'minus':nom_val-dn_val,'plus':up_val-nom_val},'label':sys}]
+    errors += [{'asymerror':{'minus':dn_val-nom_val,'plus':up_val-nom_val},'label':sys}]
 
   
   outdata = {'value':nom_val}
