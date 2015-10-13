@@ -16,9 +16,12 @@ def nominal_with_all_systs(dep_info,**kwargs):
   for sys in sysnames:
     up_val = dep_info['systhist_{}_up'.format(sys)]['value']
     dn_val = dep_info['systhist_{}_down'.format(sys)]['value']
-    errors += [{'asymerror':{'minus':nom_val-up_val,'plus':up_val-nom_val},'label':sys}]
+    errors += [{'asymerror':{'minus':nom_val-dn_val,'plus':up_val-nom_val},'label':sys}]
+
   
-  return {'value':nom_val,'errors':errors}
+  outdata = {'value':nom_val}
+  if errors: outdata.update(errors = errors)
+  return outdata
 
 def format_column_for_hepdata(ws,channel,observable,component,systematics):
   loaded_param_sets = {}
@@ -38,10 +41,15 @@ def format_column_for_hepdata(ws,channel,observable,component,systematics):
       h.SetName('systhist_{}_{}'.format(name,tag))
     
     if not firstnom:
-      nom.SetName("nominal_{}".format(channel))
       firstnom = nom
     
     syst_hists += [up,down]
+
+  if not loaded_param_sets:
+    #just take reference parameter set
+    firstnom = hfc.extract_with_pars(ws,channel,observable,component,{})
+
+  firstnom.SetName("nominal_{}".format(channel))
   
   nom_systs = {h.GetName():h for h in [firstnom] + syst_hists}
   

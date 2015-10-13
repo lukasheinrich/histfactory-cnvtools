@@ -78,6 +78,7 @@ def extract(ws,channel,obs,component = None):
     v = it.Next()
   
   histo = v.createHistogram(oname)
+  histo.SetDirectory(0)
   histo.Scale(binwidth(ws,obs,channel,component))
   return histo
 
