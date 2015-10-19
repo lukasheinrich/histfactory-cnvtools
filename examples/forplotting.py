@@ -3,7 +3,7 @@
 import click
 import ROOT
 import histfactorycnv as hfc
-
+import random
 @click.command()
 @click.argument('rootfile')
 @click.argument('channel')
@@ -15,16 +15,17 @@ def stackplot(rootfile,channel,components,workspace,outputfile,observable):
   f = ROOT.TFile.Open(rootfile)
   ws = f.Get(workspace)
   components = components.split(',')
-  click.echo('compontents: {}'.format(components))
 
-  colors = {'signal':ROOT.kAzure-9,'background1':ROOT.kRed+1,'background2':ROOT.kViolet-1}
+  colors = [ROOT.kViolet-1,ROOT.kAzure-9,ROOT.kRed+1,ROOT.kGreen+3]
   stack = ROOT.THStack()
   all_noms = []
+  
   
   syst_bands = []
   for sample in reversed(components):
     nom = hfc.extract(ws,channel,observable,sample)
-    nom.SetFillColor(colors[sample])
+
+    nom.SetFillColor(ROOT.TColor.GetColor(random.random(),random.random(),random.random()))
     nom.SetLineColor(ROOT.kBlack)
     stack.Add(nom)
     all_noms += [nom]
