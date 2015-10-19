@@ -57,7 +57,6 @@ def binwidth(ws,obs,channel,component):
 def extract_total(ws,channel,obs):
   oname=obsname(obs,channel)
   totalpdf = ws.pdf(totalpdfname(channel))
-  print totalpdf
   h = totalpdf.createHistogram(oname)
   h.Scale(1./ws.var(binwidthname(obs,channel,0)).getVal())
   return h
